@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>STUDENT REGISTRATION FORM</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <br>
+  <br>
+  <br>
+  <h1>STUDENT REGISTRATION FORM</h1>
+  <div class="con">
+    <form method="post" action="details1.php" onsubmit="return validateForm()" enctype="multipart/form-data">
+      <table align="center" cellpadding="10">
+        <tr>
+          <td>First Name</td>
+          <td><input type="text" name="FirstName" maxlength="50" placeholder="First Name" required /></td>
+          <td>Last Name</td>
+          <td><input type="text" name="LastName" maxlength="50" placeholder="Last Name" required /></td>
+        </tr>
+        <tr>
+          <td>Email Address</td>
+          <td><input type="email" name="EmailID" maxlength="100" placeholder="abcdefg@gmail.com" required /></td>
+          <td>Age</td>
+          <td><input type="number" name="Age" required /></td>
+        </tr>
+        <tr>
+          <td>Gender</td>
+          <td>
+            <select name="Gender" required>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+          </td>
+          <td>Mobile No</td>
+          <td><input type="text" name="MobileNumber" minlength="10" maxlength="10" placeholder="9102xxxxxx" required /></td>
+        </tr>
+        <tr>
+          <td>Add Your Image</td>
+          <td colspan="4"> <input type="file" id="myFile" name="image" required></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td colspan="4"><input type="submit" value="Submit" class="submit"></td>
+        </tr>
+      </table>
+    </form>
+  </div>
+
+  <script>
+    function validateForm() {
+      var firstName = document.forms[0]["FirstName"].value;
+      var lastName = document.forms[0]["LastName"].value;
+      var email = document.forms[0]["EmailID"].value;
+      var age = document.forms[0]["Age"].value;
+      var gender = document.forms[0]["Gender"].value;
+      var mobileNumber = document.forms[0]["MobileNumber"].value;
+      var image = document.forms[0]["image"].files[0];
+  
+      // Check if firstName and lastName contain any digits
+      if (/\d/.test(firstName) || /\d/.test(lastName)) {
+        alert("First Name and Last Name cannot contain numbers.");
+        return false;
+      }
+
+      // Convert FirstName and LastName to uppercase
+      var upperCaseFirstName = firstName.toUpperCase();
+      var upperCaseLastName = lastName.toUpperCase();
+  
+      // Update the form fields with uppercase values
+      document.forms[0]["FirstName"].value = upperCaseFirstName;
+      document.forms[0]["LastName"].value = upperCaseLastName;
+  
+      // Simple validation checks, you can customize them further.
+      if (upperCaseFirstName === "") {
+        alert("First Name must be filled out");
+        return false;
+      }
+  
+      if (upperCaseLastName === "") {
+        alert("Last Name must be filled out");
+        return false;
+      }
+  
+      if (email === "") {
+        alert("Email Address must be filled out");
+        return false;
+      } else if (!isValidEmail(email)) {
+        alert("Invalid Email Address");
+        return false;
+      }
+  
+      if (age === "" || isNaN(age)) {
+        alert("Age must be a valid number");
+        return false;
+      }
+  
+      if (gender === "") {
+        alert("Please select a Gender");
+        return false;
+      }
+  
+      if (mobileNumber === "") {
+        alert("Mobile Number must be filled out");
+        return false;
+      } else if (!isValidMobileNumber(mobileNumber)) {
+        alert("Invalid Mobile Number. Please enter a 10-digit number.");
+        return false;
+      }
+  
+      if (!image) {
+        alert("Please select an image for upload");
+        return false;
+      }
+  
+      var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i; // Add more extensions if needed
+      if (!allowedExtensions.exec(image.name)) {
+        alert("Invalid file format. Please upload an image (jpg, jpeg, png, or gif).");
+        return false;
+      }
+  
+      // Move to the next step if all current fields are filled
+      currentStep++;
+      showStep(currentStep);
+      
+      // Prevent the form from submitting if not all steps are completed
+      return false;
+    }
+  
+    // Email validation function
+    function isValidEmail(email) {
+      var emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+      return emailRegex.test(email);
+    }
+  
+    // Mobile number validation function (10-digit number)
+    function isValidMobileNumber(mobileNumber) {
+      var mobileRegex = /^\d{10}$/;
+      return mobileRegex.test(mobileNumber);
+    }
+</script>
+
+</body>
+</html>
